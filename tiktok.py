@@ -17,7 +17,8 @@ async def trending_videos(count):
                 top50 = {
                 'position': index + 1, # Añade la posición del video en la lista
                 'title': tiktok['desc'],
-                'user': tiktok['author']['nickname'] + "; " +tiktok['author']['id'] ,
+                'id': tiktok['id'],
+                'user': tiktok['author']['uniqueId'],
                 'views': tiktok['stats']['playCount'],
                 'likes': tiktok['stats']['diggCount'],
                 'comments':tiktok['stats']['commentCount'],
