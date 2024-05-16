@@ -35,8 +35,8 @@ def get_spotify_data(accessToken):
     file_exists = os.path.isfile('data/spotifyData.csv')
     with open('data/spotifyData.csv', 'a', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=top50[0].keys())
-        if not file_exists:
-            writer.writeheader()  # Si el archivo no existe, escribe los nombres de las columnas
+        if f.tell() == 0:
+            writer.writeheader()  # Si el archivo está vacío, escribe los nombres de las columnas
         writer.writerows(top50)
 
     return 'Datos guardados correctamente'
