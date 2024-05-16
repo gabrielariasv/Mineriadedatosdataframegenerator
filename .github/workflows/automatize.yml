@@ -46,7 +46,7 @@ jobs:
     - name: Commit report
       run: |
         git config --global user.name 'Gabriel Arias'
-        git config --global user.email 'gabriel.arias@usm.cl'
+        git config --global user.email ${{ secrets.EMAIL }}
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
         git checkout "${GITHUB_REF:11}"
         git commit -am "Automated report"
