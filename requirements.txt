@@ -1,0 +1,4 @@
+TikTokApi==latest
+flask==latest
+asyncio==latest
+requests==latest
