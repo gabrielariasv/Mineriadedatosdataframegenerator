@@ -38,7 +38,3 @@ jobs:
     - name: Run Server
       run: |
         python server.py
-    - name: Execute get calls to api
-      run: |
-        curl -X GET "localhost:3000/SpotifyData"
-        curl -X GET "localhost:3000/TikTokData"
