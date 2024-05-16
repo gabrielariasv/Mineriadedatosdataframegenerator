@@ -30,33 +30,6 @@ async def trending_videos(count):
                 index+=1
     return result
 
-async def get_tiktok_data(count):
-    currentDate = date.today().isoformat() # Obtiene la fecha actual en formato YYYY-MM-DD
-    results = []
-    index = 0
-    async with TikTokApi() as api:
-        await api.create_sessions(ms_tokens = [ms_token], num_sessions=(int(count/15)), sleep_after=3, headless = False )
-
-        for _ in range(int(count/15)):
-            async for video in api.trending.videos(count=50):
-                tiktok = video.as_dict
-                top50 = {
-                'position': index + 1, # Añade la posición del video en la lista
-                'title': tiktok['desc'],
-                'user': tiktok['author']['uniqueId'],
-                'views': tiktok['stats']['playCount'],
-                'likes': tiktok['stats']['diggCount'],
-                'comments': tiktok['stats']['commentCount'],
-                'music': tiktok['music']['title'],
-                'videoUrl': tiktok['video']['downloadAddr'],
-                'musicId': tiktok['music']['id'],
-                'date': currentDate # Añade la fecha del día
-                }
-                index+=1
-                results.append(top50)
-
-    return results
-
 def tiktokcsv(results):
     with open('data/tiktokData.csv', 'a',  newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=results[0].keys())
