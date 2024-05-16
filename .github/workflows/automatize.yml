@@ -40,7 +40,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run Server
       run: |
-        python server.py
+        xvfb-run python server.py
     - name: Create report file
       run: date +%s > report.txt
     - name: Commit report
