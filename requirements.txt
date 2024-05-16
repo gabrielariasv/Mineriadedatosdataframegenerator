@@ -2,3 +2,4 @@ TikTokApi
 flask
 asyncio
 requests
+nest-asyncio
