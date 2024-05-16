@@ -7,8 +7,8 @@ import sys
 
 nest_asyncio.apply()
 
-id = sys.argv[0]
-secret = sys.argv[1]
+id = sys.argv[1]
+secret = sys.argv[2]
 
 def spotify_data():
     accessToken = get_spotify_token(id, secret)
