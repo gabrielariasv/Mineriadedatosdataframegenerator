@@ -4,10 +4,12 @@
 name: Python application
 
 on:
-  push:
-    branches: [ "main" ]
+  #push:
+    #branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  schedule:
+    - cron: '0 0 * * *'
 
 permissions:
   contents: read
@@ -39,3 +41,13 @@ jobs:
     - name: Run Server
       run: |
         python server.py
+    - name: Create report file
+      run: date +%s > report.txt
+    - name: Commit report
+      run: |
+        git config --global user.name 'Gabriel Arias'
+        git config --global user.email 'gabriel.arias@usm.cl'
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+        git checkout "${GITHUB_REF:11}"
+        git commit -am "Automated report"
+        git push
