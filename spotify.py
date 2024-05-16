@@ -3,11 +3,11 @@ import csv
 from datetime import date
 import os
 
-def get_spotify_token():
+def get_spotify_token(id,secret):
     data = {
         'grant_type': 'client_credentials',
-        'client_id': 'f1a32a13688c49a7885b79ac682094b1',
-        'client_secret': '05cdde99caaa40c6afb8c9c5aacb528a'
+        'client_id': id,
+        'client_secret': secret
     }
 
     response = requests.post('https://accounts.spotify.com/api/token', data=data)
