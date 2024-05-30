@@ -1,5 +1,7 @@
 TikTokApi
-flask
 asyncio
 requests
 nest-asyncio
+yt_dlp
+shazamio
+pandas
