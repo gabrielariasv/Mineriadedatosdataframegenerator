@@ -1,4 +1,3 @@
-from flask import Flask, jsonify
 import asyncio
 import nest_asyncio
 from spotify import get_spotify_token, get_spotify_data
