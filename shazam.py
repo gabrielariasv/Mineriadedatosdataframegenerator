@@ -45,11 +45,19 @@ async def music_identifier(sound_id, url):
         return None
 
 def shazamcsv(results):
-    with open('data/ShazamData.csv', 'a',  newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=results[0].keys())
+    # Encabezados personalizados
+    headers = ['musicId', 'trackName', 'artists']
+
+    with open('data/ShazamData.csv', 'a', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=headers)
         if f.tell() == 0:
             writer.writeheader()  # Si el archivo está vacío, escribe los nombres de las columnas
-        writer.writerows(results)
+
+        # Convierte las tuplas en diccionarios para escribir en el archivo CSV
+        for tupla in results:
+            music_id, track_name, artists = tupla
+            fila = {'musicId': music_id, 'trackName': track_name, 'artists': artists}
+            writer.writerow(fila)
 
 def tiktok_real_music(data):
     results = []
