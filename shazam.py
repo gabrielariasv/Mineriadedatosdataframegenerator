@@ -9,15 +9,18 @@ from TikTokApi import TikTokApi
 ms_token = os.environ.get("Y8tXeEIb0ML1y9Kl4sfChd63KBLt9-dvemIuWNPv1V6MGToVlYg3ErOChI4O_MUxBE-1eRzzz7TurwmPcwLjQt3MGRpDZeStUgK4T170ALpnZgQKOzRXNTzpY4hA", None)
 
 async def alivevid(sound_id):
-    async with TikTokApi() as api:
-        await api.create_sessions(ms_tokens=[ms_token], num_sessions=1, sleep_after=1, headless = False)
-        async for sound in api.sound(id=sound_id).videos(count=1):
-            tiktok = sound.as_dict
-            video = tiktok['id']
-            user = tiktok['author']['uniqueId']
-            url = f"https://www.tiktok.com/@{user}/video/{video}"
-        return url
-
+    try:
+        async with TikTokApi() as api:
+            await api.create_sessions(ms_tokens=[ms_token], num_sessions=1, sleep_after=1, headless = False)
+            async for sound in api.sound(id=sound_id).videos(count=1):
+                tiktok = sound.as_dict
+                video = tiktok['id']
+                user = tiktok['author']['uniqueId']
+                url = f"https://www.tiktok.com/@{user}/video/{video}"
+            return url
+    except Exception as e:
+        print(f"Error en el reconocimiento: {e}")
+        return None
 async def music_identifier(sound_id, url):
 
     # Configura las opciones para yt-dlp
@@ -42,7 +45,7 @@ async def music_identifier(sound_id, url):
         return None
 
 def shazamcsv(results):
-    with open('data/tiktokData.csv', 'a',  newline='', encoding='utf-8') as f:
+    with open('data/ShazamData.csv', 'a',  newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=results[0].keys())
         if f.tell() == 0:
             writer.writeheader()  # Si el archivo está vacío, escribe los nombres de las columnas
