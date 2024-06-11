@@ -5,6 +5,8 @@ import os
 import pandas as pd
 import csv
 from TikTokApi import TikTokApi
+from datetime import datetime
+
 
 ms_token = os.environ.get("Y8tXeEIb0ML1y9Kl4sfChd63KBLt9-dvemIuWNPv1V6MGToVlYg3ErOChI4O_MUxBE-1eRzzz7TurwmPcwLjQt3MGRpDZeStUgK4T170ALpnZgQKOzRXNTzpY4hA", None)
 
@@ -59,10 +61,25 @@ def shazamcsv(results):
             fila = {'musicId': music_id, 'trackName': track_name, 'artists': artists}
             writer.writerow(fila)
 
-def tiktok_real_music(data):
+def get_last_date(filename):
+    with open(filename, 'r') as file:
+        last_date_str = file.read().strip()
+    return datetime.strptime(last_date_str, '%Y-%m-%d')
+
+def update_last_date(filename):
+    with open(filename, 'w') as file:
+        file.write(datetime.now().strftime('%Y-%m-%d'))
+
+def tiktok_real_music(data, last_date_file):
+    last_date = get_last_date(last_date_file)
     results = []
     df = pd.read_csv(data, encoding="iso-8859-1")
-    for row in df.itertuples():
+    
+    # Filtrar las filas según la fecha
+    df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
+    filtered_df = df[df['date'] > last_date]
+    
+    for row in filtered_df.itertuples():
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         url = loop.run_until_complete(alivevid(row.musicId))
@@ -71,9 +88,11 @@ def tiktok_real_music(data):
         musica = loop.run_until_complete(music_identifier(row.musicId, url))
         if musica:
             results.append(musica)
+    
     shazamcsv(results)
+    update_last_date(last_date_file)
 
 
 
-tiktok_real_music("data/tiktokData.csv")
+tiktok_real_music("data/tiktokData.csv", "data/ShazamLastUpdate.txt")
 
