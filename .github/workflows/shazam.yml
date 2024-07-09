@@ -1,8 +1,9 @@
 name: Python application
 
 on:
-  push:
-    branches: [ "main" ]
+  #push:
+    #branches: [ "main" ]
+   ## FIN DEL PROYECTO 
   pull_request:
     branches: [ "main" ]
 
